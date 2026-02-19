@@ -8,11 +8,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+
+const EMAIL_USER = "luistasayco3030@gmail.com";
+const EMAIL_PASS = "xkii szmn wopp rqdr";
+
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    user: EMAIL_USER,
+    pass: EMAIL_PASS
   }
 });
 
@@ -25,8 +30,8 @@ app.post('/subscribe', async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: `"Web Suscripción" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, 
+      from: `"Web Suscripción" <${EMAIL_USER}>`,
+      to: EMAIL_USER, 
       subject: '🔔 Nueva suscripción',
       html: `
         <h2>Nueva suscripción recibida</h2>
@@ -37,7 +42,7 @@ app.post('/subscribe', async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: `"Tu Sitio Web" <${process.env.EMAIL_USER}>`,
+      from: `"Tu Sitio Web" <${EMAIL_USER}>`,
       to: email,
       subject: '¡Gracias por suscribirte!',
       html: `
@@ -54,6 +59,6 @@ app.post('/subscribe', async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log('Servidor corriendo en http://localhost:3000');
+app.listen(8080, () => {
+  console.log('Servidor corriendo en http://localhost:8080');
 });
