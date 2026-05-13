@@ -34,7 +34,7 @@ app.post('/contact', async (req, res) => {
   try {
     await transporterGeneral.sendMail({
       from: `"Web Peru Luxury Journeys" <${USER_1}>`,
-      to: 'dw@fiestatoursperu.com',
+      to: 'marco.paredes@fiestatoursperu.com',
       subject: `✉️ Solicitud de Itinerario — ${nombre}`,
       html: `
         <!DOCTYPE html>
@@ -120,7 +120,7 @@ app.post('/subscribe', async (req, res) => {
   try {
     await transporterGeneral.sendMail({
       from: `"Peru Luxury - WEB Suscripcion" <${USER_1}>`,
-      to: 'dw@fiestatoursperu.com', 
+      to: 'marco.paredes@fiestatoursperu.com', 
       subject: 'Nueva suscripción',
       html: `
       <!DOCTYPE html>
@@ -236,7 +236,7 @@ app.post('/form-terra', async (req, res) => {
 
     await transporterEducativo.sendMail({
       from: `"Terra Andina" <${USER_2}>`,
-      to: 'dw@fiestatoursperu.com', 
+      to: 'marco.paredes@fiestatoursperu.com', 
       subject: `🔔 Consulta Terra Andina - ${nombre}`,
       html: `
       <!DOCTYPE html>
