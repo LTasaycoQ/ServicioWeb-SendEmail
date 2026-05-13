@@ -34,7 +34,7 @@ app.post('/contact', async (req, res) => {
   try {
     await transporterGeneral.sendMail({
       from: `"Web Peru Luxury Journeys" <${USER_1}>`,
-      to: USER_1,
+      to: 'dw@fiestatoursperu.com',
       subject: `✉️ Solicitud de Itinerario — ${nombre}`,
       html: `
         <!DOCTYPE html>
