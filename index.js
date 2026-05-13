@@ -90,10 +90,11 @@ app.post('/form-terra', async (req, res) => {
       return res.status(403).json({ ok: false, mensaje: 'Fallo la validación del Captcha' });
     }
     const htmlCorreo = `
-      <table border="0" cellpadding="10" cellspacing="0" style="font-family: Arial, sans-serif; font-size: 14px; color: #333; max-width: 500px; width: 100%; border: 1px solid #ddd;">
+  <div style="width:100%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+    <table border="0" cellpadding="10" cellspacing="0" style="font-family: Arial, sans-serif; font-size: 14px; color: #333; max-width: 500px; width: 100%; border: 1px solid #ddd;">
         <tr style="background-color: #f5b041;">
           <td style="padding: 15px; text-align: center;">
-            <span style="font-size: 20px; font-weight: bold; color: #fff;">🏨 TERRA ANDINA</span>
+            <span style="font-size: 20px; font-weight: bold; color: #fff;">TERRA ANDINA</span>
           </td>
         </tr>
         <tr>
@@ -124,6 +125,7 @@ app.post('/form-terra', async (req, res) => {
           </td>
         </tr>
       </table>
+    </div>
     `;
 
     await transporterEducativo.sendMail({
