@@ -298,6 +298,7 @@ app.post('/form-terra', async (req, res) => {
                                 </td>
                               </tr>
                               <tr>
+                              
                                 <td style="padding:10px 0;">
                                   <span style="color:#999;font-size:11px;letter-spacing:2px;text-transform:uppercase;">Fecha y Hora</span><br/>
                                   <span style="color:#1a1a1a;font-size:15px;">
