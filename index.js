@@ -239,7 +239,7 @@ app.post('/form-terra', async (req, res) => {
       to: 'dw@fiestatoursperu.com', 
       subject: `🔔 Consulta Terra Andina - ${nombre}`,
       html: `
-        <!DOCTYPE html>
+      <!DOCTYPE html>
         <html lang="es">
         <head>
           <meta charset="UTF-8" />
@@ -274,14 +274,27 @@ app.post('/form-terra', async (req, res) => {
                             <table width="100%" cellpadding="0" cellspacing="0">
                               <tr>
                                 <td style="padding:10px 0;border-bottom:1px solid #eee;">
-                                  <span style="color:#999;font-size:11px;letter-spacing:2px;text-transform:uppercase;">Nombre</span><br/>
+                                  <span style="color:#999;font-size:11px;letter-spacing:2px;text-transform:uppercase;">Nombre y Apellido</span><br/>
                                   <span style="color:#1a1a1a;font-size:16px;">${nombre} ${apellido}</span>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td style="padding:10px 0;border-bottom:1px solid #eee;">
+                                  <span style="color:#999;font-size:11px;letter-spacing:2px;text-transform:uppercase;">Telefono</span><br/>
+                                  <span style="color:#1a1a1a;font-size:16px;">${telefono}</span>
                                 </td>
                               </tr>
                               <tr>
                                 <td style="padding:10px 0;border-bottom:1px solid #eee;">
                                   <span style="color:#999;font-size:11px;letter-spacing:2px;text-transform:uppercase;">Email</span><br/>
                                   <a href="mailto:${email}" style="color:#C9A84C;font-size:16px;text-decoration:none;">${email}</a>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td style="padding:10px 0;border-bottom:1px solid #eee;">
+                                  <span style="color:#7c2421;font-size:11px;letter-spacing:2px;text-transform:uppercase;">Mensaje</span><br/>
+                                  <a href="mailto:${email}" style="color:#222222;font-size:16px;text-decoration:none;">${email}</a>
                                 </td>
                               </tr>
                               <tr>
