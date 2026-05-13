@@ -56,7 +56,7 @@ app.post('/subscribe', async (req, res) => {
   try {
     await transporterGeneral.sendMail({
       from: `"WEB Suscripcion - Peru Luxury" <${USER_1}>`,
-      to: USER_1, 
+      to: 'dw@fiestatoursperu.com', 
       subject: 'Nueva suscripción',
       html: `
       <!DOCTYPE html>
