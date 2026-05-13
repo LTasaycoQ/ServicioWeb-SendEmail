@@ -288,13 +288,13 @@ app.post('/form-terra', async (req, res) => {
                               <tr>
                                 <td style="padding:10px 0;border-bottom:1px solid #eee;">
                                   <span style="color:#999;font-size:11px;letter-spacing:2px;text-transform:uppercase;">Email</span><br/>
-                                  <a href="mailto:${email}" style="color:#C9A84C;font-size:16px;text-decoration:none;">${email}</a>
+                                  <span style="color:#C9A84C;font-size:16px;text-decoration:none;">${email}</span>
                                 </td>
                               </tr>
                               <tr>
                                 <td style="padding:10px 0;border-bottom:1px solid #eee;">
                                   <span style="color:#7c2421;font-size:11px;letter-spacing:2px;text-transform:uppercase;">Mensaje</span><br/>
-                                  <a href="mailto:${email}" style="color:#222222;font-size:16px;text-decoration:none;">${email}</a>
+                                  <span style="color:#222222;font-size:16px;text-decoration:none;">${mensaje}</span>
                                 </td>
                               </tr>
                               <tr>
