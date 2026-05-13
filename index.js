@@ -44,8 +44,8 @@ app.post('/subscribe', async (req, res) => {
   const { nombre, email, apellido } = req.body;
   try {
     await transporterGeneral.sendMail({
-      from: `"Suscripciones Educativas" <${USER_2}>`,
-      to: USER_2, 
+      from: `"Suscripciones Educativas" <${USER_1}>`,
+      to: USER_1, 
       subject: 'Nueva suscripción académica',
       html: `<h2>Registro: ${nombre} ${apellido}</h2><p>Email: ${email}</p>`
     });
