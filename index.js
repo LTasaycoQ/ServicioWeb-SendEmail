@@ -89,58 +89,16 @@ app.post('/form-terra', async (req, res) => {
     if (!outcome.success) {
       return res.status(403).json({ ok: false, mensaje: 'Fallo la validación del Captcha' });
     }
-    const htmlCorreo = `
-  <div style="width:100%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-    <table border="0" cellpadding="10" cellspacing="0" style="font-family: Arial, sans-serif; font-size: 14px; color: #333; max-width: 500px; width: 100%; border: 1px solid #ddd;">
-        <tr style="background-color: #f5b041;">
-          <td style="padding: 15px; text-align: center;">
-            <span style="font-size: 20px; font-weight: bold; color: #fff;">TERRA ANDINA</span>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding: 20px;">
-            <table border="0" cellpadding="8" cellspacing="0" style="width: 100%;">
-              <tr>
-                <td style="font-weight: bold; width: 100px;">Nombre:</td>
-                <td>${nombre} ${apellido}</td>
-              </tr>
-              <tr>
-                <td style="font-weight: bold;">Email:</td>
-                <td>${email}</td>
-              </tr>
-              <tr>
-                <td style="font-weight: bold;">Teléfono:</td>
-                <td>${telefono || 'No especificado'}</td>
-              </tr>
-              <tr>
-                <td style="font-weight: bold; vertical-align: top;">Mensaje:</td>
-                <td>${mensaje || 'Sin mensaje'}</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr style="background-color: #f9f9f9;">
-          <td style="padding: 10px; font-size: 11px; color: #888; text-align: center;">
-            📅 ${new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })}
-          </td>
-        </tr>
-      </table>
-    </div>
-    `;
 
     await transporterEducativo.sendMail({
       from: `"Terra Andina" <${USER_2}>`,
-      to: 'dw@fiestatoursperu.com',
-      subject: `📩 Nueva consulta - ${nombre}`,
-      html: htmlCorreo,
-      // Texto plano por si Outlook falla
-      text: `
-        TERRA ANDINA - NUEVA CONSULTA
-        Nombre: ${nombre} ${apellido}
-        Email: ${email}
-        Teléfono: ${telefono || 'No especificado'}
-        Mensaje: ${mensaje || 'Sin mensaje'}
-        Fecha: ${new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })}
+      to: 'dw@fiestatoursperu.com', 
+      subject: `🔔 Consulta Terra Andina - ${nombre}`,
+      html: `
+        <h2>Nueva consulta recibida</h2>
+        <p><strong>Nombre:</strong> ${nombre} ${apellido}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Fecha:</strong> ${new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })}</p>
       `
     });
 
