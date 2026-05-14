@@ -27,6 +27,8 @@ const transporterEducativo = nodemailer.createTransport({
 
 
 const SECRET_KEY_TURNSTILE_PERU_LUXURY = "0x4AAAAAADPRDAWehbe_VFhuGTxSXn4SnK4";
+const SECRET_KEY_TURNSTILE_PERU_LUXURY_SUSBCRIBE = "0x4AAAAAADPSXcjuWmNDSjScALJayJ78Z_k";
+
 
 app.post('/contact', async (req, res) => {
   const { nombre, email, captcha } = req.body;
@@ -136,8 +138,30 @@ app.post('/contact', async (req, res) => {
 });
 
 app.post('/subscribe', async (req, res) => {
-  const { nombre, email, apellido } = req.body;
+  const { nombre, email, apellido, captcha } = req.body;
+    if (!email || !captcha) {
+    return res.status(400).json({ ok: false, mensaje: 'Email y Captcha son requeridos' });
+  }
   try {
+
+    const url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        secret: SECRET_KEY_TURNSTILE_PERU_LUXURY_SUSBCRIBE,
+        response: captcha,
+      }),
+    });
+
+    const outcome = await response.json();
+
+    if (!outcome.success) {
+      return res.status(403).json({ ok: false, mensaje: 'Fallo la validación del Captcha' });
+    }
+
+
     await transporterGeneral.sendMail({
       from: `"Peru Luxury - WEB Suscripcion" <${USER_1}>`,
       to: 'dw@fiestatoursperu.com', 
