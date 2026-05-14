@@ -40,7 +40,6 @@ const transporterEducativo = nodemailer.createTransport({
   }
 });
 
-// Verificar conexiones de email (útil para debugging)
 transporterGeneral.verify((error, success) => {
   if (error) {
     console.error('Error con transporterGeneral:', error);
@@ -57,7 +56,6 @@ transporterEducativo.verify((error, success) => {
   }
 });
 
-// Endpoint: Contacto Peru Luxury
 app.post('/contact', async (req, res) => {
   const { nombre, email, captcha } = req.body;
 
@@ -69,7 +67,6 @@ app.post('/contact', async (req, res) => {
   }
 
   try {
-    // Validar Turnstile
     const url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
     const response = await fetch(url, {
       method: 'POST',
@@ -89,7 +86,6 @@ app.post('/contact', async (req, res) => {
       });
     }
 
-    // Enviar email
     await transporterGeneral.sendMail({
       from: `"Web Peru Luxury Journeys" <${process.env.EMAIL_USER_1}>`,
       to: process.env.DESTINATION_EMAIL,
@@ -170,7 +166,6 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// Endpoint: Suscripción Peru Luxury
 app.post('/subscribe', async (req, res) => {
   const { nombre, email, apellido } = req.body;
   
@@ -262,7 +257,8 @@ app.post('/subscribe', async (req, res) => {
   }
 });
 
-// Endpoint: Formulario Terra Andina
+
+
 app.post('/form-terra', async (req, res) => {
   const { nombre, apellido, telefono, email, mensaje, captcha } = req.body;
 
