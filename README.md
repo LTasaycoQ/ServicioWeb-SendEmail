@@ -1,22 +1,27 @@
-# node-mailer---Prueba
+# API Peru Luxury Journeys & Terra Andina Hotel
 
-const nodemailer = require('nodemailer');
+API para manejar formularios de contacto y suscripciones con verificación de Turnstile.
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'tu@gmail.com',
-    pass: 'tu_contraseña_app'
-  }
-});
+## Endpoints
 
-app.post('/subscribe', (req, res) => {
-  const { email } = req.body;
+### POST /contact
+Envío de solicitud de itinerario
 
-  transporter.sendMail({
-    from: 'tu@gmail.com',
-    to: 'tu@gmail.com',
-    subject: 'Nueva suscripción',
-    text: `Se suscribió: ${email}`
-  });
-});
+### POST /subscribe
+Registro de suscripciones
+
+### POST /form-terra
+Formulario de contacto del hotel
+
+### GET /health
+Health check del servicio
+
+## Variables de entorno requeridas
+
+- `EMAIL_USER_1`: Cuenta Gmail para Peru Luxury
+- `EMAIL_PASS_1`: Contraseña de aplicación Gmail
+- `EMAIL_USER_2`: Cuenta Gmail para Terra Andina
+- `EMAIL_PASS_2`: Contraseña de aplicación Gmail
+- `TURNSTILE_SECRET_PERU_LUXURY`: Secret key de Cloudflare Turnstile
+- `TURNSTILE_SECRET_TERRA_ANDINA`: Secret key de Cloudflare Turnstile
+- `DESTINATION_EMAIL`: Email destino para recibir notificaciones
