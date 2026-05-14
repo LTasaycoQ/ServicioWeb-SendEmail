@@ -1,27 +1,22 @@
 {
-  "name": "mailer---prueba",
+  "name": "servicioweb-sendemail",
   "version": "1.0.0",
-  "description": "",
+  "description": "API for Peru Luxury Journeys and Terra Andina Hotel",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LTasaycoQ/node-mailer---Prueba.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/LTasaycoQ/node-mailer---Prueba/issues"
-  },
-  "homepage": "https://github.com/LTasaycoQ/node-mailer---Prueba#readme",
   "dependencies": {
-    "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1",
-    "nodemailer": "^8.0.1"
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }

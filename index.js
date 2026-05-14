@@ -7,23 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const requiredEnvVars = [
-  'EMAIL_USER_1',
-  'EMAIL_PASS_1',
-  'EMAIL_USER_2',
-  'EMAIL_PASS_2',
-  'TURNSTILE_SECRET_PERU_LUXURY',
-  'TURNSTILE_SECRET_TERRA_ANDINA',
-  'DESTINATION_EMAIL'
-];
-
-requiredEnvVars.forEach(varName => {
-  if (!process.env[varName]) {
-    console.error(`Error: La variable de entorno ${varName} no está definida`);
-    process.exit(1);
-  }
-});
-
+// Configurar transportadores de correo
 const transporterGeneral = nodemailer.createTransport({
   service: 'gmail',
   auth: { 
@@ -40,22 +24,7 @@ const transporterEducativo = nodemailer.createTransport({
   }
 });
 
-transporterGeneral.verify((error, success) => {
-  if (error) {
-    console.error('Error con transporterGeneral:', error);
-  } else {
-    console.log('transporterGeneral listo para enviar emails');
-  }
-});
-
-transporterEducativo.verify((error, success) => {
-  if (error) {
-    console.error('Error con transporterEducativo:', error);
-  } else {
-    console.log('transporterEducativo listo para enviar emails');
-  }
-});
-
+// Endpoint: Contacto Peru Luxury
 app.post('/contact', async (req, res) => {
   const { nombre, email, captcha } = req.body;
 
@@ -67,6 +36,7 @@ app.post('/contact', async (req, res) => {
   }
 
   try {
+    // Validar Turnstile
     const url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
     const response = await fetch(url, {
       method: 'POST',
@@ -86,6 +56,7 @@ app.post('/contact', async (req, res) => {
       });
     }
 
+    // Enviar email
     await transporterGeneral.sendMail({
       from: `"Web Peru Luxury Journeys" <${process.env.EMAIL_USER_1}>`,
       to: process.env.DESTINATION_EMAIL,
@@ -98,25 +69,21 @@ app.post('/contact', async (req, res) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         </head>
         <body style="margin:0;padding:0;background-color:#f4f4f4;font-family:Georgia,serif;">
-
           <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:40px 0;">
             <tr>
               <td align="center">
                 <table width="580" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-
                   <tr>
                     <td style="background:#1a1a1a;padding:32px 40px;text-align:center;">
                       <p style="margin:0;color:#D9B244;font-size:11px;letter-spacing:4px;text-transform:uppercase;">Peru Luxury Journeys</p>
                       <h1 style="margin:10px 0 0;color:#ffffff;font-size:22px;font-weight:normal;letter-spacing:1px;">Solicitud de Itinerario Personalizado</h1>
                     </td>
                   </tr>
-
                   <tr>
                     <td style="padding:40px;">
                       <p style="margin:0 0 24px;color:#555;font-size:15px;line-height:1.6;">
                         Un visitante ha solicitado un itinerario personalizado desde el sitio web.
                       </p>
-
                       <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f9f9;border-left:4px solid #D9B244;border-radius:4px;">
                         <tr>
                           <td style="padding:24px 28px;">
@@ -135,11 +102,10 @@ app.post('/contact', async (req, res) => {
                               </tr>
                             </table>
                           </td>
-                        </tr>
+                        </table>
                       </table>
                     </td>
                   </tr>
-
                   <tr>
                     <td style="background:#f9f9f9;padding:20px 40px;border-top:1px solid #eee;text-align:center;">
                       <p style="margin:0;color:#aaa;font-size:11px;letter-spacing:1px;">
@@ -147,12 +113,10 @@ app.post('/contact', async (req, res) => {
                       </p>
                     </td>
                   </tr>
-
                 </table>
-              </td>
-            </tr>
+              <tr>
+            </td>
           </table>
-
         </body>
         </html>
       `
@@ -166,6 +130,7 @@ app.post('/contact', async (req, res) => {
   }
 });
 
+// Endpoint: Suscripción Peru Luxury
 app.post('/subscribe', async (req, res) => {
   const { nombre, email, apellido } = req.body;
   
@@ -189,25 +154,21 @@ app.post('/subscribe', async (req, res) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         </head>
         <body style="margin:0;padding:0;background-color:#f4f4f4;font-family:Georgia,serif;">
-
           <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:40px 0;">
             <tr>
               <td align="center">
                 <table width="580" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-
                   <tr>
                     <td style="background:#1a1a1a;padding:32px 40px;text-align:center;">
                       <p style="margin:0;color:#D9B244;font-size:11px;letter-spacing:4px;text-transform:uppercase;">Peru Luxury Journeys</p>
                       <h1 style="margin:10px 0 0;color:#ffffff;font-size:22px;font-weight:normal;letter-spacing:1px;">Nueva Suscripción</h1>
                     </td>
                   </tr>
-
                   <tr>
                     <td style="padding:40px;">
                       <p style="margin:0 0 24px;color:#555;font-size:15px;line-height:1.6;">
                         Se ha registrado un nuevo suscriptor desde el sitio web.
                       </p>
-
                       <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f9f9;border-left:4px solid #D9B244;border-radius:4px;">
                         <tr>
                           <td style="padding:24px 28px;">
@@ -230,7 +191,6 @@ app.post('/subscribe', async (req, res) => {
                       </table>
                     </td>
                   </tr>
-
                   <tr>
                     <td style="background:#f9f9f9;padding:20px 40px;border-top:1px solid #eee;text-align:center;">
                       <p style="margin:0;color:#aaa;font-size:11px;letter-spacing:1px;">
@@ -238,12 +198,10 @@ app.post('/subscribe', async (req, res) => {
                       </p>
                     </td>
                   </tr>
-
                 </table>
               </td>
             </tr>
           </table>
-
         </body>
         </html>
       `
@@ -257,8 +215,7 @@ app.post('/subscribe', async (req, res) => {
   }
 });
 
-
-
+// Endpoint: Formulario Terra Andina
 app.post('/form-terra', async (req, res) => {
   const { nombre, apellido, telefono, email, mensaje, captcha } = req.body;
 
@@ -303,25 +260,21 @@ app.post('/form-terra', async (req, res) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         </head>
         <body style="margin:0;padding:0;background-color:#f4f4f4;font-family:Georgia,serif;">
-
           <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:40px 0;">
             <tr>
               <td align="center">
                 <table width="580" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-
                   <tr>
                     <td style="background:#6B1010;padding:32px 40px;text-align:center;">
                       <p style="margin:0;color:#C9A84C;font-size:11px;letter-spacing:4px;text-transform:uppercase;">Terra Andina Colonial Mansion</p>
                       <h1 style="margin:10px 0 0;color:#ffffff;font-size:22px;font-weight:normal;letter-spacing:1px;">Nueva Consulta Recibida</h1>
                     </td>
                   </tr>
-
                   <tr>
                     <td style="padding:40px;">
                       <p style="margin:0 0 24px;color:#555;font-size:15px;line-height:1.6;">
                         Se ha recibido una nueva consulta desde el sitio web del hotel.
                       </p>
-
                       <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f9f9;border-left:4px solid #C9A84C;border-radius:4px;">
                         <tr>
                           <td style="padding:24px 28px;">
@@ -362,7 +315,6 @@ app.post('/form-terra', async (req, res) => {
                           </td>
                         </tr>
                       </table>
-
                       <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:32px;">
                         <tr>
                           <td align="center">
@@ -375,7 +327,6 @@ app.post('/form-terra', async (req, res) => {
                       </table>
                     </td>
                   </tr>
-
                   <tr>
                     <td style="background:#f9f9f9;padding:20px 40px;border-top:1px solid #eee;text-align:center;">
                       <p style="margin:0 0 4px;color:#aaa;font-size:11px;letter-spacing:1px;">
@@ -386,12 +337,10 @@ app.post('/form-terra', async (req, res) => {
                       </p>
                     </td>
                   </tr>
-
                 </table>
-              </td>
-            </tr>
+              </table>
+            </table>
           </table>
-
         </body>
         </html>
       `
@@ -409,7 +358,7 @@ app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    endpoints: ['/contact', '/subscribe', '/form-terra']
   });
 });
 
@@ -419,6 +368,5 @@ if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 8080;
   app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
-    console.log('Variables de entorno cargadas correctamente');
   });
 }
