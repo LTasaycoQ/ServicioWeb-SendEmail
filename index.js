@@ -26,12 +26,32 @@ const transporterEducativo = nodemailer.createTransport({
 
 
 
-const SECRET_KEY_TURNSTILE_PERU_LUXURY = "0x4AAAAAADOng4r_T-E8Y3UGNi-5BD1RtQE";
-
+const SECRET_KEY_TURNSTILE_PERU_LUXURY = "0x4AAAAAADPRDAWehbe_VFhuGTxSXn4SnK4";
 
 app.post('/contact', async (req, res) => {
-  const { nombre, email } = req.body;
+  const { nombre, email, captcha } = req.body;
+
+  if (!nombre || !email || !captcha) {
+    return res.status(400).json({ ok: false, mensaje: 'Nombre, Email y Captcha son requeridos' });
+  }
   try {
+    const url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        secret: SECRET_KEY_TURNSTILE_PERU_LUXURY,
+        response: captcha,
+      }),
+    });
+
+    const outcome = await response.json();
+
+    if (!outcome.success) {
+      return res.status(403).json({ ok: false, mensaje: 'Fallo la validación del Captcha' });
+    }
+
     await transporterGeneral.sendMail({
       from: `"Web Peru Luxury Journeys" <${USER_1}>`,
       to: 'marco.paredes@fiestatoursperu.com',
