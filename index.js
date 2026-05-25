@@ -2,7 +2,10 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const PDFDocument = require("pdfkit");
 
+
 const cors = require('cors');
+const PORT = process.env.PORT || 8000;
+
 
 const app = express();
 app.use(cors());
@@ -735,6 +738,6 @@ app.post('/form-terra', async (req, res) => {
 });
 
 
-app.listen(8080, () => {
-  console.log('Servidor corriendo en http://localhost:8080');
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
