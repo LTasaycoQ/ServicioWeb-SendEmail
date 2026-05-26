@@ -48,9 +48,7 @@ function drawHeader(doc) {
     const HEADER_H = 80;
 
     doc.rect(0, 0, PAGE_W, HEADER_H).fill('#ffffff');
-    doc.fillColor(green).font('Helvetica-Bold').fontSize(7).text('FIESTA TOURS PERU', L, 18, { characterSpacing: 3 });
     doc.fillColor(green).font('Helvetica-Bold').fontSize(18).text('Resumen de Evaluación', L, 30);
-    doc.fillColor('#5dad72').font('Helvetica').fontSize(9).text('Peru Luxury Journeys', L, 52);
 
     try { doc.image('path/logo-fti.png', PAGE_W - 280, 20, { width: 250 }); } catch (_) { }
     doc.y = HEADER_H + 20;
@@ -75,7 +73,6 @@ function generarPDF(datos) {
         doc.on('pageAdded', () => { drawHeader(doc); });
         drawHeader(doc);
 
-        // Cuerpo del PDF
         doc.fillColor(green).fontSize(12).font('Helvetica-Bold').text('Nombre: ', { continued: true });
         doc.fillColor("#3f3f3f").font('Helvetica-Bold').fontSize(12).text(nombre);
         doc.moveDown(1);

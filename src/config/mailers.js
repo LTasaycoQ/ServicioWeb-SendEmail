@@ -10,7 +10,6 @@ const PASS_2 = "vvkh jkzc vozm jbji";
 const EMAIL_USER = "noreply.fiestatoursperu@gmail.com";
 const EMAIL_PASS = "ztcn lsxw sbwy mktw";
 
-// Transporters
 const transporterGeneral = nodemailer.createTransport({
   service: 'gmail',
   auth: { user: USER_1, pass: PASS_1 }
