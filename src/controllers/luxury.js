@@ -1,6 +1,5 @@
 const { transporterGeneral, USER_1 } = require('../config/mailers');
 
-// Controlador para /contact
 const handleContact = async (req, res) => {
   const { nombre, email, captcha } = req.body;
 
@@ -78,7 +77,9 @@ const handleContact = async (req, res) => {
   }
 };
 
-// Controlador para /subscribe
+
+
+
 const handleSubscribe = async (req, res) => {
   const { nombre, email, apellido } = req.body;
   try {
