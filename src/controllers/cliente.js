@@ -1,5 +1,5 @@
 const PDFDocument = require('pdfkit');
-const { transporter, EMAIL_USER } = require('../config/mailers');
+const { transporter, USER_1 } = require('../config/mailers');
 
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHQD1Djs9fR-dkY1ORNEH2TJp-On_mMXupgut0VtvGHJ0mTUVPAEdLBjx8D8IfvUKSPA/exec';
 
@@ -282,7 +282,6 @@ function buildEmailCliente(d) {
   return emailBase('Confirmación de Registro', `Folio: ${d.referencia || '—'}`, cuerpo);
 }
 
-// --- FUNCIÓN DEL CONTROLADOR PRINCIPAL ---
 async function handleCliente(req, res) {
   const {
     nombreContacto, emailContacto, correoDestino, referencia,
