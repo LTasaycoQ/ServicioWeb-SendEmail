@@ -1,6 +1,9 @@
 const nodemailer = require('nodemailer');
+const dns = require('dns');
 
-// Credenciales
+// 🛠️ Forzar IPv4 global para evitar problemas de conexión en contenedores (Render, etc.)
+dns.setDefaultResultOrder('ipv4first');
+
 const USER_1 = "luistasayco3030@gmail.com";
 const PASS_1 = "xkii szmn wopp rqdr";
 
@@ -10,31 +13,39 @@ const PASS_2 = "vvkh jkzc vozm jbji";
 const EMAIL_USER = "noreply.fiestatoursperu@gmail.com";
 const EMAIL_PASS = "ztcn lsxw sbwy mktw";
 
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, 
+  pool: true,     
+  maxConnections: 5,
+  auth: { user: USER_1, pass: PASS_1 },
+  tls: { rejectUnauthorized: false }
+});
+
 const transporterGeneral = nodemailer.createTransport({
-  service: 'gmail',
-  auth: { user: USER_1, pass: PASS_1 }
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  auth: { user: USER_1, pass: PASS_1 },
+  tls: { rejectUnauthorized: false }
 });
 
 const transporterEducativo = nodemailer.createTransport({
-  service: 'gmail',
-  auth: { user: USER_2, pass: PASS_2 }
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  auth: { user: USER_2, pass: PASS_2 },
+  tls: { rejectUnauthorized: false }
 });
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: { user: EMAIL_USER, pass: EMAIL_PASS }
-});
-
-// Keys Turnstile
 const SECRET_KEY_TURNSTILE_PERU_LUXURY = "0x4AAAAAADPRDAWehbe_VFhuGTxSXn4SnK4";
 const SECRET_KEY_TURNSTILE = "0x4AAAAAACw3a24bV1FooWeaaH8KsZdr_cE";
 
 module.exports = {
   transporterGeneral,
   transporterEducativo,
-  transporter,
+  transporter, // Exporta el transporter pool de Google
   SECRET_KEY_TURNSTILE,
   SECRET_KEY_TURNSTILE_PERU_LUXURY,
   EMAIL_USER,

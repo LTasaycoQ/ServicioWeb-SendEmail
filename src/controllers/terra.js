@@ -27,7 +27,7 @@ const handleTerraForm = async (req, res) => {
 
     await transporterEducativo.sendMail({
       from: `"Terra Andina" <${USER_2}>`,
-      to: 'ventas@terraandinahotel.com', 
+      to: 'luistasayco3030@gmail.com', 
       subject: `🔔 Consulta Terra Andina - ${nombre}`,
       html: `
       
