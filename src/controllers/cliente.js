@@ -370,7 +370,7 @@ async function handleCliente(req, res) {
     await Promise.all([
       transporter.sendMail({
         from:        `"Fiesta Tours Peru" <${USER_1}>`,
-        to:          "luistasayco3030@gmail.com",
+        to:          correoDestino,
         subject:     `Nuevo Registro — ${nombreContacto}`,
         html:        buildEmailEjecutivo(datosAEnviar),
         attachments: [pdfAdjunto],
@@ -380,7 +380,6 @@ async function handleCliente(req, res) {
         to:          emailContacto,
         subject:     `Confirmación de tu registro — ${referencia || nombreContacto}`,
         html:        buildEmailCliente(datosAEnviar),
-        attachments: [pdfAdjunto], // Se incluye también al cliente por consistencia
       }),
     ]);
 
