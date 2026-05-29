@@ -42,11 +42,197 @@ function generarPDF(datos) {
     doc.fillColor('#2a4e33').fontSize(20).font('Helvetica-Bold')
       .text('Registro de Cliente', L, 34, { width: COL_W, align: 'start' });
     
-    // Nota: Asegúrate de tener la ruta correcta al logo o manéjala de forma condicional
     try {
       doc.image('path/logo-fti.png', L * 7, 15, { width: 280 });
     } catch (e) {
-      // Evita que rompa el flujo si la imagen no se encuentra en el entorno local/cloud
+    }
+
+    let curY = 90;
+
+    const seccion = (titulo) => {
+      curY += 10;
+      doc.rect(L, curY, COL_W, 20).fill('#ffffff');
+      doc.rect(L, curY, 4, 15).fill('#93a89c');
+      doc.fillColor('#1a1a1a').fontSize(10).font('Helvetica-Bold')
+        .text(titulo.toUpperCase(), L + 12, curY + 5, { width: COL_W - 12, characterSpacing: 1 });
+      curY += 26;
+    };
+
+    let filaIndex = 0;
+    const fila = (label, valor, esSubtitulo = false) => {
+      const h    = 20;
+      const lw   = Math.round(COL_W * 0.38);
+      const vw   = COL_W - lw;
+      const bg   = esSubtitulo ? '#9dc5ae' : (filaIndex % 2 === 0 ? '#ffffff' : '#fafafa');
+      const textColor = esSubtitulo ? '#1a1a1a' : '#2c2c2c';
+
+      doc.rect(L, curY, COL_W, h).fill(bg);
+      doc.rect(L, curY + h - 0.5, COL_W, 0.5).fill('#e8e8e8');
+
+      if (esSubtitulo) {
+        doc.fillColor('#1a1a1a').fontSize(8).font('Helvetica-Bold')
+          .text(label, L + 8, curY + 6, { width: COL_W - 8 });
+      } else {
+        doc.fillColor('#888888').fontSize(7.5).font('Helvetica')
+          .text(label, L + 8, curY + 7, { width: lw - 8 });
+        doc.fillColor(textColor).fontSize(9).font('Helvetica-Bold')
+          .text(valor || '—', L + lw + 6, curY + 6, { width: vw - 10 });
+      }
+
+      curY += h;
+      if (!esSubtitulo) filaIndex++;
+
+      if (curY > PAGE_H - 68) {
+        doc.addPage({ margin: 0, size: 'A4' });
+        doc.rect(0, 0, PAGE_W, 32).fill('#ffffff');
+        doc.fillColor('#D9B244').fontSize(7).font('Helvetica-Bold')
+          .text('FIESTA TOURS PERU', L, 10, { width: COL_W, align: 'start', characterSpacing: 2 });
+        doc.fillColor('#2a4e33').fontSize(11).font('Helvetica-Bold')
+          .text('Registro de Cliente — continuación', L, 18, { width: COL_W, align: 'start' });
+        curY = 46;
+        filaIndex = 0;
+      }
+    };
+
+    seccion('Datos de Contacto');
+    filaIndex = 0;
+    fila('Fecha',      fecha);
+    fila('Nombre',     nombreContacto);
+    fila('Email',      emailContacto);
+    fila('Ejecutivo',  ejecutivo);
+    fila('Referencia', referencia);
+
+    seccion('Habitaciones');
+    filaIndex = 0;
+    curY += 4;
+    const hHab = 20;
+    const halfW = COL_W / 2;
+    doc.rect(L,           curY, halfW, hHab).fill('#ffffff');
+    doc.rect(L + halfW,   curY, halfW, hHab).fill('#ffffff');
+    doc.rect(L, curY + hHab - 0.5, COL_W, 0.5).fill('#ffffff');
+    doc.fillColor('#888888').fontSize(7.5).font('Helvetica').text('Adultos',  L + 8,          curY + 3, { width: 50 });
+    doc.fillColor('#1a1a1a').fontSize(9).font('Helvetica-Bold').text(adultos || '1', L + 60,  curY + 3);
+    doc.fillColor('#888888').fontSize(7.5).font('Helvetica').text('Niños',    L + halfW + 8,  curY + 3, { width: 50 });
+    doc.fillColor('#1a1a1a').fontSize(9).font('Helvetica-Bold').text(ninos || '0', L + halfW + 60, curY + 3);
+    curY += hHab + 4;
+
+    const habGrid = [
+      ['Doble (dos camas)', doble_dos_camas],
+      ['Doble matrimonial', dobleMatrimonial],
+      ['Suite familiar',    suiteFamiliar],
+      ['Individual',        individual],
+    ];
+    habGrid.forEach(([lbl, val]) => fila(lbl, val));
+
+    if (pasajeros && pasajeros.length > 0) {
+      seccion('Pasajeros');
+      const colWidths = { tit: 40, nom: 110, ape: 110, pas: 85, nac: 85, fNac: 85 };
+      const colX = {
+        tit: L,
+        nom: L + colWidths.tit,
+        ape: L + colWidths.tit + colWidths.nom,
+        pas: L + colWidths.tit + colWidths.nom + colWidths.ape,
+        nac: L + colWidths.tit + colWidths.nom + colWidths.ape + colWidths.pas,
+        fNac: L + colWidths.tit + colWidths.nom + colWidths.ape + colWidths.pas + colWidths.nac
+      };
+      const rowH = 20; 
+
+      doc.rect(L, curY, COL_W, rowH).fill('#9dc5ae');
+      doc.fillColor('#1a1a1a').fontSize(8).font('Helvetica-Bold');
+      doc.text('Tít.',     colX.tit + 4,  curY + 6, { width: colWidths.tit - 4 });
+      doc.text('Nombre',   colX.nom + 4,  curY + 6, { width: colWidths.nom - 4 });
+      doc.text('Apellido', colX.ape + 4,  curY + 6, { width: colWidths.ape - 4 });
+      doc.text('Pasaporte',colX.pas + 4,  curY + 6, { width: colWidths.pas - 4 });
+      doc.text('Nacionalidad.',     colX.nac + 4,  curY + 6, { width: colWidths.nac - 4 });
+      doc.text('F. Nacimiento.',  colX.fNac + 4, curY + 6, { width: colWidths.fNac - 4 });
+      curY += rowH;
+
+      pasajeros.forEach((p, index) => {
+        if (curY > PAGE_H - 68) {
+          doc.addPage({ margin: 0, size: 'A4' });
+          doc.rect(0, 0, PAGE_W, 32).fill('#ffffff');
+          doc.fillColor('#D9B244').fontSize(7).font('Helvetica-Bold').text('FIESTA TOURS PERU', L, 10, { width: COL_W, align: 'start', characterSpacing: 2 });
+          doc.fillColor('#2a4e33').fontSize(11).font('Helvetica-Bold').text('Registro de Cliente — continuación pasajeros', L, 18, { width: COL_W, align: 'start' });
+          curY = 46;
+          doc.rect(L, curY, COL_W, rowH).fill('#9dc5ae');
+          doc.fillColor('#1a1a1a').fontSize(8).font('Helvetica-Bold');
+          doc.text('Tít.', colX.tit + 4, curY + 6);
+          doc.text('Nombre', colX.nom + 4, curY + 6);
+          doc.text('Apellido', colX.ape + 4, curY + 6);
+          curY += rowH;
+        }
+
+        const bg = index % 2 === 0 ? '#ffffff' : '#fafafa';
+        doc.rect(L, curY, COL_W, rowH).fill(bg);
+        doc.fillColor('#2c2c2c').fontSize(8).font('Helvetica');
+        doc.text(p.titulo || '—',       colX.tit + 4,  curY + 6, { width: colWidths.tit - 6, ellipsis: true });
+        doc.text(p.nombre || '—',       colX.nom + 4,  curY + 6, { width: colWidths.nom - 6, ellipsis: true });
+        doc.text(p.apellido || '—',     colX.ape + 4,  curY + 6, { width: colWidths.ape - 6, ellipsis: true });
+        doc.text(p.pasaporte || '—',    colX.pas + 4,  curY + 6, { width: colWidths.pas - 6, ellipsis: true });
+        doc.text(p.nacionalidad || '—', colX.nac + 4,  curY + 6, { width: colWidths.nac - 6, ellipsis: true });
+        doc.text(p.fechaNac || '—',     colX.fNac + 4, curY + 6, { width: colWidths.fNac - 6, ellipsis: true });
+        curY += rowH;
+      });
+    }
+       
+    seccion('Validacion');
+    filaIndex = 0;
+    fila('Acepta traer varias copias de sus pasaportes', aceptaCheck    ? 'Si' : 'No');
+    fila('Pasaportes estaran vigentes durante los dias de viaje', copiaPasaporte ? 'Si' : 'No');
+
+    dibujarPie();
+    doc.end();
+  });
+}
+
+
+const PDFDocument = require('pdfkit');
+const { transporter, USER_1 } = require('../config/mailers');
+
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHQD1Djs9fR-dkY1ORNEH2TJp-On_mMXupgut0VtvGHJ0mTUVPAEdLBjx8D8IfvUKSPA/exec';
+
+// --- GENERADOR DE PDF ---
+function generarPDF(datos) {
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({ margin: 0, size: 'A4', bufferPages: true });
+    const chunks = [];
+
+    doc.on('data', (chunk) => chunks.push(chunk));
+    doc.on('end',  () => resolve(Buffer.concat(chunks)));
+    doc.on('error', reject);
+
+    const PAGE_W  = doc.page.width;   
+    const PAGE_H  = doc.page.height;
+    const L = 40;  
+    const R = 555; 
+    const COL_W = R - L;
+
+    const {
+      fecha, nombreContacto, emailContacto, ejecutivo, referencia,
+      doble_dos_camas, dobleMatrimonial, suiteFamiliar, individual,
+      adultos, ninos, aceptaCheck, copiaPasaporte, pasajeros,
+    } = datos;
+
+    const dibujarPie = () => {
+      const range = doc.bufferedPageRange();
+      for (let i = range.start; i < range.start + range.count; i++) {
+        doc.switchToPage(i);
+        doc.rect(0, PAGE_H - 28, PAGE_W, 28).fill('#ffffff');
+        doc.fillColor('#555555').fontSize(7)
+          .text(
+            `© ${new Date().getFullYear()} Fiesta Tours Peru — Documento generado automáticamente`,
+            L, PAGE_H - 18, { width: COL_W, align: 'center' }
+          );
+      }
+    };
+
+    doc.rect(0, 0, PAGE_W, 72).fill('#ffffff');
+    doc.fillColor('#2a4e33').fontSize(20).font('Helvetica-Bold')
+      .text('Registro de Cliente', L, 34, { width: COL_W, align: 'start' });
+    
+    try {
+      doc.image('path/logo-fti.png', L * 7, 15, { width: 280 });
+    } catch (e) {
     }
 
     let curY = 90;
