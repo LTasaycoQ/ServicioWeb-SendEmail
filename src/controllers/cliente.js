@@ -1,5 +1,5 @@
 const PDFDocument = require('pdfkit');
-const { transporter, USER_1 } = require('../config/mailer');
+const { transporter, USER_1 } = require('../config/mailers');
 
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHQD1Djs9fR-dkY1ORNEH2TJp-On_mMXupgut0VtvGHJ0mTUVPAEdLBjx8D8IfvUKSPA/exec';
 
