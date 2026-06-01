@@ -177,7 +177,7 @@ const handleEvaluacion = async (req, res) => {
 
         await transporter.sendMail({
             from: `"Fiesta Tours Peru" <${EMAIL_USER}>`,
-            to: "marco.paredes@fiestatoursperu.com",
+            to: "repevacusco@gmail.com, marco.paredes@fiestatoursperu.com",
             subject: `Evaluación Viaje - ${datos.nombre}`,
             html: generarHTML(datos),
             attachments: [
