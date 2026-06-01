@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 const dns = require('dns');
 
-// 🛠️ Forzar IPv4 global para evitar problemas de conexión en contenedores (Render, etc.)
 dns.setDefaultResultOrder('ipv4first');
 
 const USER_1 = "luistasayco3030@gmail.com";
@@ -19,7 +18,7 @@ const transporter = nodemailer.createTransport({
   secure: false, 
   pool: true,     
   maxConnections: 5,
-  auth: { user: USER_1, pass: PASS_1 },
+  auth: { user: EMAIL_USER, pass: EMAIL_PASS },
   tls: { rejectUnauthorized: false }
 });
 
@@ -45,7 +44,7 @@ const SECRET_KEY_TURNSTILE = "0x4AAAAAACw3a24bV1FooWeaaH8KsZdr_cE";
 module.exports = {
   transporterGeneral,
   transporterEducativo,
-  transporter, // Exporta el transporter pool de Google
+  transporter,
   SECRET_KEY_TURNSTILE,
   SECRET_KEY_TURNSTILE_PERU_LUXURY,
   EMAIL_USER,
