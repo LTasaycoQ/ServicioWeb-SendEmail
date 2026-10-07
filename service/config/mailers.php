@@ -3,7 +3,7 @@
 
 // Definimos las constantes globales de credenciales
 define('USER_1', 'luistasayco3030@gmail.com');
-define('PASS_1', 'xkii szmn wopp rqdr');
+define('PASS_1', 'xkiiszmnwopprqdr');
 
 define('USER_2', 'noreply.terraandina@gmail.com');
 define('PASS_2', 'vvkh jkzc vozm jbji');
