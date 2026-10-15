@@ -9,13 +9,13 @@ const PASS_1 = "xkii szmn wopp rqdr";
 const USER_2 = "noreply.terraandina@gmail.com"; 
 const PASS_2 = "vvkh jkzc vozm jbji"; 
 
-const EMAIL_USER = "noreply.fiestatoursperu@gmail.com";
-const EMAIL_PASS = "ztcn lsxw sbwy mktw";
+const EMAIL_USER = "info@fiestatoursperu.com";
+const EMAIL_PASS = "Fiest@2642pe";
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, 
+  host: "mail.fiestatoursperu.com",
+  port: 465,
+  secure: true, 
   pool: true,     
   maxConnections: 5,
   auth: { user: EMAIL_USER, pass: EMAIL_PASS },
