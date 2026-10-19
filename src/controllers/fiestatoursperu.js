@@ -65,7 +65,7 @@ const handleFiestaToursPeru = async (req, res) => {
 
     await transporter.sendMail({
       from: `"Fiesta Tours Peru" <${EMAIL_USER}>`,
-      to: 'dw@fiestatoursperu.com',
+      to: 'sales@fiestatoursperu.com, dw@fiestatoursperu.com',
       replyTo: email || undefined,
       subject: `Nueva solicitud Fiesta Tours Peru - ${nombre} ${apellido}`.trim(),
       html: `
