@@ -18,10 +18,13 @@ Health check del servicio
 
 ## Variables de entorno requeridas
 
+- `EMAIL_USER`: Cuenta de correo de Fiesta Tours Peru
+- `EMAIL_PASS`: Contraseña de la cuenta de correo de Fiesta Tours Peru
 - `EMAIL_USER_1`: Cuenta Gmail para Peru Luxury
 - `EMAIL_PASS_1`: Contraseña de aplicación Gmail
 - `EMAIL_USER_2`: Cuenta Gmail para Terra Andina
 - `EMAIL_PASS_2`: Contraseña de aplicación Gmail
 - `TURNSTILE_SECRET_PERU_LUXURY`: Secret key de Cloudflare Turnstile
 - `TURNSTILE_SECRET_TERRA_ANDINA`: Secret key de Cloudflare Turnstile
+- `TURNSTILE_SECRET_FIESTATOURSPERU`: Secret key de Cloudflare Turnstile para Fiesta Tours Peru
 - `DESTINATION_EMAIL`: Email destino para recibir notificaciones

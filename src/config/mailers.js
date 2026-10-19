@@ -9,8 +9,8 @@ const PASS_1 = "xkii szmn wopp rqdr";
 const USER_2 = "noreply.terraandina@gmail.com"; 
 const PASS_2 = "vvkh jkzc vozm jbji"; 
 
-const EMAIL_USER = "info@fiestatoursperu.com";
-const EMAIL_PASS = "Fiest@2642pe";
+const EMAIL_USER = process.env.EMAIL_USER;
+const EMAIL_PASS = process.env.EMAIL_PASS;
 
 const transporter = nodemailer.createTransport({
   host: "mail.fiestatoursperu.com",

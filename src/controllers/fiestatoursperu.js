@@ -17,9 +17,34 @@ const handleFiestaToursPeru = async (req, res) => {
     fecha = '',
     pasajeros = '',
     descripcion = '',
+    captcha = '',
+    'cf-turnstile-response': turnstileResponse = '',
   } = req.body;
+  const turnstileToken = captcha || turnstileResponse;
 
   try {
+    const secret = process.env.TURNSTILE_SECRET_FIESTATOURSPERU;
+
+    if (!turnstileToken) {
+      return res.status(400).json({ ok: false, mensaje: 'Captcha es requerido' });
+    }
+
+    if (!secret) {
+      console.error('Falta configurar TURNSTILE_SECRET_FIESTATOURSPERU');
+      return res.status(500).json({ ok: false, mensaje: 'Error interno del servidor' });
+    }
+
+    const verificationResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ secret, response: turnstileToken }),
+    });
+    const verification = await verificationResponse.json();
+
+    if (!verificationResponse.ok || !verification.success) {
+      return res.status(403).json({ ok: false, mensaje: 'Falló la validación del Captcha' });
+    }
+
     const fields = [
       ['Nombre', nombre],
       ['Apellido', apellido],
@@ -40,7 +65,7 @@ const handleFiestaToursPeru = async (req, res) => {
 
     await transporter.sendMail({
       from: `"Fiesta Tours Peru" <${EMAIL_USER}>`,
-      to: 'sales@fiestatoursperu.com, dw@fiestatoursperu.com',
+      to: 'dw@fiestatoursperu.com',
       replyTo: email || undefined,
       subject: `Nueva solicitud Fiesta Tours Peru - ${nombre} ${apellido}`.trim(),
       html: `
